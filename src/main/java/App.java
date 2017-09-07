@@ -28,7 +28,6 @@ public class App extends Application{
 			view = loader.getController();
 			view.setController(controller);
 
-
 			Scene scene = new Scene(mainLayout);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Schedule");
