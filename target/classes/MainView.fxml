@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.MainView">
+   <children>
+      <AnchorPane layoutX="14.0" layoutY="32.0" prefHeight="400.0" prefWidth="298.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label contentDisplay="CENTER" prefHeight="27.0" prefWidth="144.0" text="Add Appointment" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="10.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="25.0" layoutY="48.0" text="Begin day" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="50.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="beginDay" layoutX="10.0" layoutY="71.0" prefHeight="25.0" prefWidth="111.0" AnchorPane.leftAnchor="15.0" />
+            <Label layoutX="17.0" layoutY="96.0" text="Begin time" AnchorPane.leftAnchor="15.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </Label>
+            <Label layoutX="96.0" layoutY="126.0" text="Hour">
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <ComboBox fx:id="beginMinute" layoutX="135.0" layoutY="122.0" prefHeight="25.0" prefWidth="80.0" />
+            <Label layoutX="215.0" layoutY="126.0" text="Minute">
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <Label layoutX="17.0" layoutY="147.0" text="Finish day" AnchorPane.leftAnchor="15.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </Label>
+            <DatePicker fx:id="finishDay" layoutX="21.0" layoutY="173.0" prefHeight="25.0" prefWidth="111.0" AnchorPane.leftAnchor="15.0" />
+            <Label layoutX="10.0" layoutY="198.0" text="Finish time" AnchorPane.leftAnchor="15.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </Label>
+            <Label layoutX="96.0" layoutY="230.0" text="Hour">
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <ComboBox fx:id="finishMinute" layoutX="135.0" layoutY="226.0" prefHeight="25.0" prefWidth="80.0" />
+            <Label layoutX="215.0" layoutY="230.0" text="Minute">
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <Label layoutX="9.0" layoutY="249.0" text="Annotation" AnchorPane.leftAnchor="15.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </Label>
+            <TextArea fx:id="annotationTextArea" layoutX="6.0" layoutY="275.0" prefHeight="75.0" prefWidth="270.0" AnchorPane.leftAnchor="15.0" />
+            <Button fx:id="addBtn" layoutX="125.0" layoutY="361.0" mnemonicParsing="false" onAction="#onClickAdd" prefHeight="25.0" prefWidth="51.0" text="Add" AnchorPane.bottomAnchor="14.0" />
+            <ComboBox fx:id="beginHour" layoutX="13.0" layoutY="122.0" prefHeight="25.0" prefWidth="80.0" AnchorPane.leftAnchor="15.0" />
+            <ComboBox fx:id="finishHour" layoutX="15.0" layoutY="226.0" prefHeight="25.0" prefWidth="80.0" AnchorPane.leftAnchor="15.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="386.0" layoutY="81.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Schedule" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="10.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Separator orientation="VERTICAL" prefHeight="400.0" AnchorPane.topAnchor="0.0" />
+            <TableView fx:id="scheduleTable" layoutX="14.0" layoutY="49.0" prefHeight="300.0" prefWidth="374.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0">
+              <columns>
+                <TableColumn fx:id="beginDateColumn" prefWidth="100.0" text="Begin Date" />
+                  <TableColumn fx:id="finishDateColumn" prefWidth="100.0" text="Finish Date" />
+                <TableColumn fx:id="annotationColumn" prefWidth="173.0" text="Annotations" />
+              </columns>
+            </TableView>
+            <Button fx:id="editBtn" layoutX="130.0" layoutY="361.0" mnemonicParsing="false" onAction="#onClickEdit" prefHeight="25.0" prefWidth="51.0" text="Edit" AnchorPane.bottomAnchor="14.0" />
+            <Button fx:id="deleteBtn" layoutX="219.0" layoutY="361.0" mnemonicParsing="false" onAction="#onClickDelete" text="Delete" AnchorPane.bottomAnchor="14.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
