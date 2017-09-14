@@ -12,13 +12,13 @@ import models.Appointment;
 import java.time.LocalDate;
 
 public class EditView {
-	@FXML private DatePicker beginDayEdit, finishDayEdit;
-	@FXML private ComboBox<Integer> beginHourEdit, beginMinuteEdit, finishHourEdit, finishMinuteEdit;
+	@FXML private DatePicker beginDayEdit;
+	@FXML private ComboBox<Integer> beginHourEdit, beginMinuteEdit;
+	@FXML private ComboBox<String> repeatTypeEdit;
 	@FXML private TextArea annotationTextAreaEdit;
 	@FXML private Button applyEditBtn;
 
 	private MainController controller;
-	private MainView mainView;
 	private Appointment editAppointment;
 
 	@FXML
@@ -27,48 +27,41 @@ public class EditView {
 				beginDayEdit.getValue().getMonthValue(), beginDayEdit.getValue().getYear(),
 				beginHourEdit.getValue(), beginMinuteEdit.getValue());
 
-		String finishDateString = String.format("%02d/%02d/%02d %02d:%02d", finishDayEdit.getValue().getDayOfMonth(),
-				finishDayEdit.getValue().getMonthValue(), finishDayEdit.getValue().getYear(),
-				finishHourEdit.getValue(), finishMinuteEdit.getValue());
-
 		String annotation = annotationTextAreaEdit.getText();
 
-		Appointment newAppointment = new Appointment(beginDateString, finishDateString, annotation);
+		String repeatTypeString = repeatTypeEdit.getValue();
+		Appointment newAppointment = new Appointment(beginDateString, annotation, repeatTypeString);
 		controller.getDbController().editEvent(editAppointment, newAppointment);
 
 		Stage stage = (Stage) applyEditBtn.getScene().getWindow();
 		stage.close();
 	}
 	private void setComboBox() {
-		for (int i=0; i<24; i++) {
+		for (int i=0; i<24; i++)
 			beginHourEdit.getItems().add(i);
-			finishHourEdit.getItems().add(i);
-		}
 
-		for (int i=0; i<60; i++) {
+		for (int i=0; i<60; i++)
 			beginMinuteEdit.getItems().add(i);
-			finishMinuteEdit.getItems().add(i);
-		}
+
 		Integer defaultBeginHour = Integer.parseInt((editAppointment.getBeginDate().split(" ")[1]).split(":")[0]);
-		Integer defaultFinishHour = Integer.parseInt((editAppointment.getFinishDate().split(" ")[1]).split(":")[0]);
 		beginHourEdit.setValue(defaultBeginHour);
-		finishHourEdit.setValue(defaultFinishHour);
 
 		Integer defaultBeginMinute = Integer.parseInt((editAppointment.getBeginDate().split(" ")[1]).split(":")[1]);
-		Integer defaultFinishMinute = Integer.parseInt((editAppointment.getFinishDate().split(" ")[1]).split(":")[1]);
 		beginMinuteEdit.setValue(defaultBeginMinute);
-		finishMinuteEdit.setValue(defaultFinishMinute);
+
+		repeatTypeEdit.getItems().add("Never");
+		repeatTypeEdit.getItems().add("Daily");
+		repeatTypeEdit.getItems().add("Weekly");
+		repeatTypeEdit.getItems().add("Monthly");
+		repeatTypeEdit.getItems().add("Yearly");
+
+		repeatTypeEdit.setValue(editAppointment.getRepeatType());
 	}
 	private void setDatePicker() {
 		Integer defaultBeginDay = Integer.parseInt((editAppointment.getBeginDate().split(" ")[0]).split("/")[0]);
 		Integer defaultBeginMonth = Integer.parseInt((editAppointment.getBeginDate().split(" ")[0]).split("/")[1]);
 		Integer defaultBeginYear = Integer.parseInt((editAppointment.getBeginDate().split(" ")[0]).split("/")[2]);
 		beginDayEdit.setValue(LocalDate.of(defaultBeginYear, defaultBeginMonth, defaultBeginDay));
-
-		Integer defaultFinishDay = Integer.parseInt((editAppointment.getFinishDate().split(" ")[0]).split("/")[0]);
-		Integer defaultFinishMonth = Integer.parseInt((editAppointment.getFinishDate().split(" ")[0]).split("/")[1]);
-		Integer defaultFinishYear = Integer.parseInt((editAppointment.getFinishDate().split(" ")[0]).split("/")[2]);
-		finishDayEdit.setValue(LocalDate.of(defaultFinishYear, defaultFinishMonth, defaultFinishDay));
 	}
 	private void setTextArea() {
 		annotationTextAreaEdit.setText(editAppointment.getAnnotation());
@@ -84,10 +77,6 @@ public class EditView {
 		this.controller = controller;
 
 		setBeginScene();
-	}
-
-	public void setMainView(MainView mainView) {
-		this.mainView = mainView;
 	}
 
 	public void setEditAppointment(Appointment editAppointment) {

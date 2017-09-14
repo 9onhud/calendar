@@ -29,10 +29,10 @@ public class DatabaseController {
 				
 				while (resultSet.next()) {
 					String beginDate = resultSet.getString(1);
-					String finishDate = resultSet.getString(2);
-					String annotation = resultSet.getString(3);
+					String annotation = resultSet.getString(2);
+					String repeatType = resultSet.getString(3);
 					
-					appointments.add(new Appointment(beginDate, finishDate, annotation));
+					appointments.add(new Appointment(beginDate, annotation, repeatType));
 				}
 				conn.close();
 				return appointments;
@@ -47,19 +47,19 @@ public class DatabaseController {
 		return null;
 	}
 	
-	public void addEvent(String beginDate, String finishDate, String annotation) {
+	public void addEvent(String beginDate, String annotation, String repeatType) {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			String dbURL = "jdbc:sqlite:event.db";
 			Connection conn = DriverManager.getConnection(dbURL);
 			
 			if (conn != null) {
-				String query = "INSERT INTO event(beginDate, finishDate, annotation) VALUES(?,?,?)";
+				String query = "INSERT INTO event(beginDate, annotation, repeatType) VALUES(?,?,?)";
 				PreparedStatement statement = conn.prepareStatement(query);
 				
 				statement.setString(1, beginDate);
-				statement.setString(2, finishDate);
-				statement.setString(3, annotation);
+				statement.setString(2, annotation);
+				statement.setString(3, repeatType);
 				
 				statement.executeUpdate();
 				conn.close();
@@ -78,12 +78,12 @@ public class DatabaseController {
 			Connection conn = DriverManager.getConnection(dbURL);
 
 			if (conn != null) {
-				String query = "DELETE FROM event WHERE beginDate = ? AND finishDate = ? AND annotation = ?";
+				String query = "DELETE FROM event WHERE beginDate = ? AND annotation = ? AND repeatType = ?";
 				PreparedStatement statement = conn.prepareStatement(query);
 
 				statement.setString(1, deleteAppointment.getBeginDate());
-				statement.setString(2, deleteAppointment.getFinishDate());
-				statement.setString(3, deleteAppointment.getAnnotation());
+				statement.setString(2, deleteAppointment.getAnnotation());
+				statement.setString(3, deleteAppointment.getRepeatType());
 
 				statement.executeUpdate();
 				conn.close();
@@ -102,17 +102,17 @@ public class DatabaseController {
 			Connection conn = DriverManager.getConnection(dbURL);
 
 			if (conn != null) {
-				String query = "UPDATE event set beginDate = ?, finishDate = ?, annotation = ? " +
-						"where beginDate = ? AND finishDate = ? AND annotation = ?";
+				String query = "UPDATE event set beginDate = ?, annotation = ?, repeatType = ? " +
+						"where beginDate = ? AND annotation = ? AND repeatType = ?";
 				PreparedStatement statement = conn.prepareStatement(query);
 
 				statement.setString(1, newAppointment.getBeginDate());
-				statement.setString(2, newAppointment.getFinishDate());
-				statement.setString(3, newAppointment.getAnnotation());
+				statement.setString(2, newAppointment.getAnnotation());
+				statement.setString(3, newAppointment.getRepeatType());
 
 				statement.setString(4, editAppointment.getBeginDate());
-				statement.setString(5, editAppointment.getFinishDate());
-				statement.setString(6, editAppointment.getAnnotation());
+				statement.setString(5, editAppointment.getAnnotation());
+				statement.setString(6,editAppointment.getRepeatType());
 
 				statement.executeUpdate();
 				conn.close();

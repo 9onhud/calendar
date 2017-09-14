@@ -27,42 +27,48 @@ import javafx.stage.Stage;
 import models.Appointment;
 
 public class MainView implements Initializable{
-	@FXML private DatePicker beginDay, finishDay;
-	@FXML private ComboBox<Integer> beginHour, beginMinute, finishHour, finishMinute;
+	@FXML private DatePicker beginDay;
+	@FXML private ComboBox<Integer> beginHour, beginMinute;
+	@FXML private ComboBox<String> repeatType;
 	@FXML private TextArea annotationTextArea;
 	
 	@FXML private TableView<Appointment> scheduleTable;
-	@FXML private TableColumn<Appointment, String> beginDateColumn, finishDateColumn, annotationColumn;
+	@FXML private TableColumn<Appointment, String> beginDateColumn, annotationColumn, repeatTypeColumn;
 
 	private MainController controller;
 	
 	public void initialize(URL arg0, ResourceBundle arg1) {	}
 
-	// add 0-59 to minute comboBox and 0-23 to hours comboBox
 	private void setComboBox() {
-		for (int i=0; i<24; i++) {
+		for (int i=0; i<24; i++)
 			beginHour.getItems().add(i);
-			finishHour.getItems().add(i);
-		}
 		
-		for (int i=0; i<60; i++) {
+		for (int i=0; i<60; i++)
 			beginMinute.getItems().add(i);
-			finishMinute.getItems().add(i);
-		}
+
+		repeatType.getItems().add("Never");
+		repeatType.getItems().add("Daily");
+		repeatType.getItems().add("Weekly");
+		repeatType.getItems().add("Monthly");
+		repeatType.getItems().add("Yearly");
+	}
+	private void setDefualt() {
 		beginHour.setValue(0);
-		finishHour.setValue(0);
 
 		beginMinute.setValue(0);
-		finishMinute.setValue(0);
+
+		repeatType.setValue("Never");
+
+		setDatePicker();
+		setTextArea();
 	}
 	private void setTableView() {
 		beginDateColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("beginDate"));
-		finishDateColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("finishDate"));
 		annotationColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("annotation"));
+		repeatTypeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("repeatType"));
 	}
 	private void setDatePicker() {
 		beginDay.setValue(LocalDate.of(2017, 9, 1));
-		finishDay.setValue(LocalDate.of(2017, 9, 1));
 	}
 	private void setTextArea() {
 		annotationTextArea.setText("");
@@ -79,15 +85,14 @@ public class MainView implements Initializable{
 				beginDay.getValue().getMonthValue(), beginDay.getValue().getYear(), 
 				beginHour.getValue(), beginMinute.getValue());
 		
-		String finishDateString = String.format("%02d/%02d/%02d %02d:%02d", finishDay.getValue().getDayOfMonth(),
-				finishDay.getValue().getMonthValue(), finishDay.getValue().getYear(), 
-				finishHour.getValue(), finishMinute.getValue());
-		
 		String annotation = annotationTextArea.getText();
-		controller.getDbController().addEvent(beginDateString, finishDateString, annotation);
+
+		String repeatTypeString = repeatType.getValue();
+
+		controller.getDbController().addEvent(beginDateString, annotation, repeatTypeString);
 
 		showEventInSchedule();
-		setBeginScene();
+		setDefualt();
 	}
 	
 	@FXML 
@@ -101,7 +106,6 @@ public class MainView implements Initializable{
 				Pane editLayout = (AnchorPane) loader.load();
 				EditView editView = loader.getController();
 				editView.setEditAppointment(editedAppointment);
-				editView.setMainView(this);
 				editView.setController(controller);
 
 				Scene scene = new Scene(editLayout);
@@ -140,6 +144,8 @@ public class MainView implements Initializable{
 		setTableView();
 		setDatePicker();
 		setTextArea();
+
+		setDefualt();
 
 		showEventInSchedule();
 	}

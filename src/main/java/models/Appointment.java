@@ -1,25 +1,22 @@
 package models;
 
 public class Appointment {
-	private String beginDate, finishDate, annotation;
+	private String beginDate, annotation, repeatType;
 
-	public Appointment(String beginDate, String finishDate, String annotation) {
+	public Appointment(String beginDate, String annotation, String repeatType) {
 		this.beginDate = beginDate;
-		this.finishDate = finishDate;
 		this.annotation = annotation;
+		this.repeatType = repeatType;
 	}
 
 	public String getBeginDate() {
 		return beginDate;
 	}
 
-	public String getFinishDate() {
-		return finishDate;
-	}
-
 	public String getAnnotation() {
 		return annotation;
 	}
-	
+
+	public String getRepeatType() { return repeatType; }
 	
 }

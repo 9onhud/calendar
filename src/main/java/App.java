@@ -30,6 +30,7 @@ public class App extends Application{
 
 			Scene scene = new Scene(mainLayout);
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 			primaryStage.setTitle("Schedule");
 			primaryStage.show();
 		} catch (IOException e) {
