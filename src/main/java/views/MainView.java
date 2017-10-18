@@ -27,13 +27,15 @@ import javafx.stage.Stage;
 import models.Appointment;
 
 public class MainView implements Initializable{
-	@FXML private DatePicker beginDay;
+	@FXML private DatePicker beginDay, dateSearch;
 	@FXML private ComboBox<Integer> beginHour, beginMinute;
 	@FXML private ComboBox<String> repeatType;
 	@FXML private TextArea annotationTextArea;
 	
 	@FXML private TableView<Appointment> scheduleTable;
 	@FXML private TableColumn<Appointment, String> beginDateColumn, annotationColumn, repeatTypeColumn;
+
+	private ArrayList<Appointment> appointments;
 
 	private MainController controller;
 	
@@ -74,11 +76,32 @@ public class MainView implements Initializable{
 		annotationTextArea.setText("");
 	}
 	
-	public void showEventInSchedule() {
-		ArrayList<Appointment> appointments = controller.getDbController().loadEvent();
+	public void showEventInSchedule(ArrayList<Appointment> appointments) {
 		scheduleTable.setItems(FXCollections.observableArrayList(appointments));
 	}
-	
+
+	@FXML
+	public void onSearch() {
+		String searchDateString = String.format("%02d/%02d/%02d", dateSearch.getValue().getDayOfMonth(),
+				dateSearch.getValue().getMonthValue(), dateSearch.getValue().getYear());
+
+		ArrayList<Appointment> appointmentsOnSearch = new ArrayList<>();
+		for (Appointment appointment: appointments) {
+			String date = (appointment.getBeginDate().split(" ")) [0];
+			if (date.equals(searchDateString))
+				appointmentsOnSearch.add(appointment);
+
+		}
+
+		showEventInSchedule(appointmentsOnSearch);
+	}
+
+	@FXML
+	public void onResetSearch() {
+		loadEvent();
+		showEventInSchedule(appointments);
+	}
+
 	@FXML
 	public void onClickAdd() {
 		String beginDateString = String.format("%02d/%02d/%02d %02d:%02d", beginDay.getValue().getDayOfMonth(),
@@ -91,7 +114,8 @@ public class MainView implements Initializable{
 
 		controller.getDbController().addEvent(beginDateString, annotation, repeatTypeString);
 
-		showEventInSchedule();
+		loadEvent();
+		showEventInSchedule(appointments);
 		setDefualt();
 	}
 	
@@ -115,7 +139,8 @@ public class MainView implements Initializable{
 				editStage.initModality(Modality.APPLICATION_MODAL);
 				editStage.showAndWait();
 
-				showEventInSchedule();
+				loadEvent();
+				showEventInSchedule(appointments);
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -129,10 +154,14 @@ public class MainView implements Initializable{
 		if (deleteAppointment != null) {
 			controller.getDbController().deleteEvent(deleteAppointment);
 
-			showEventInSchedule();
+			loadEvent();
+			showEventInSchedule(appointments);
 		}
 	}
 
+	private void loadEvent() {
+		appointments = controller.getDbController().loadEvent();
+	}
 	public void setController(MainController controller) {
 		this.controller = controller;
 
@@ -147,6 +176,7 @@ public class MainView implements Initializable{
 
 		setDefualt();
 
-		showEventInSchedule();
+		loadEvent();
+		showEventInSchedule(appointments);
 	}
 }
