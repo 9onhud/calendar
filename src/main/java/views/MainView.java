@@ -3,8 +3,12 @@ package views;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 
@@ -41,6 +45,7 @@ public class MainView implements Initializable{
 	
 	public void initialize(URL arg0, ResourceBundle arg1) {	}
 
+
 	private void setComboBox() {
 		for (int i=0; i<24; i++)
 			beginHour.getItems().add(i);
@@ -71,6 +76,7 @@ public class MainView implements Initializable{
 	}
 	private void setDatePicker() {
 		beginDay.setValue(LocalDate.of(2017, 9, 1));
+		dateSearch.getEditor().clear();
 	}
 	private void setTextArea() {
 		annotationTextArea.setText("");
@@ -82,29 +88,47 @@ public class MainView implements Initializable{
 
 	@FXML
 	public void onSearch() {
-		String searchDayString = Integer.toString(dateSearch.getValue().getDayOfMonth());
-		String searchMonthString = Integer.toString(dateSearch.getValue().getMonthValue());
-		String searchYearString = Integer.toString(dateSearch.getValue().getYear());
+		String searchDateString = String.format("%02d/%02d/%02d", dateSearch.getValue().getDayOfMonth(),
+				dateSearch.getValue().getMonthValue(), dateSearch.getValue().getYear());
 
-		ArrayList<Appointment> appointmentsOnSearch = new ArrayList<>();
-		for (Appointment appointment: appointments) {
-			String dayString = (appointment.getBeginDate().split(" "))[0].split("/")[0];
-			String monthString = (appointment.getBeginDate().split(" "))[0].split("/")[1];
-			String yearString = (appointment.getBeginDate().split(" "))[0].split("/")[2];
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
 
-			if (appointment.getRepeatType().equals("Daily"))
-				appointmentsOnSearch.add(appointment);
-			else if (appointment.getRepeatType().equals("Weekly") ) {}
+		try {
+			Date searchDate = dateFormat.parse(searchDateString);
+			Date appointmentDate ;
 
+			ArrayList<Appointment> appointmentsOnSearch = new ArrayList<>();
+
+			for (Appointment appointment: appointments) {
+				appointmentDate = dateFormat.parse(appointment.getBeginDate().split(" ")[0]);
+
+				if (appointment.getRepeatType().equals("Daily"))
+					appointmentsOnSearch.add(appointment);
+				else if (appointment.getRepeatType().equals("Weekly") && (appointmentDate.getDay()==searchDate.getDay()))
+					appointmentsOnSearch.add(appointment);
+				else if (appointment.getRepeatType().equals("Monthly") && (appointmentDate.getDate()==searchDate.getDate()))
+					appointmentsOnSearch.add(appointment);
+				else if (appointment.getRepeatType().equals("Yearly") && (appointmentDate.getDate()==searchDate.getDate()
+						&& appointmentDate.getMonth()==searchDate.getMonth()))
+					appointmentsOnSearch.add(appointment);
+				else if (appointment.getRepeatType().equals("Never") && (appointmentDate.getDate()==searchDate.getDate()
+						&& appointmentDate.getMonth()==searchDate.getMonth() && appointmentDate.getYear()==searchDate.getYear()))
+					appointmentsOnSearch.add(appointment);
+			}
+
+			showEventInSchedule(appointmentsOnSearch);
+
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
-
-		showEventInSchedule(appointmentsOnSearch);
 	}
 
 	@FXML
 	public void onResetSearch() {
 		loadEvent();
 		showEventInSchedule(appointments);
+
+		dateSearch.getEditor().clear();
 	}
 
 	@FXML
