@@ -82,14 +82,19 @@ public class MainView implements Initializable{
 
 	@FXML
 	public void onSearch() {
-		String searchDateString = String.format("%02d/%02d/%02d", dateSearch.getValue().getDayOfMonth(),
-				dateSearch.getValue().getMonthValue(), dateSearch.getValue().getYear());
+		String searchDayString = Integer.toString(dateSearch.getValue().getDayOfMonth());
+		String searchMonthString = Integer.toString(dateSearch.getValue().getMonthValue());
+		String searchYearString = Integer.toString(dateSearch.getValue().getYear());
 
 		ArrayList<Appointment> appointmentsOnSearch = new ArrayList<>();
 		for (Appointment appointment: appointments) {
-			String date = (appointment.getBeginDate().split(" ")) [0];
-			if (date.equals(searchDateString))
+			String dayString = (appointment.getBeginDate().split(" "))[0].split("/")[0];
+			String monthString = (appointment.getBeginDate().split(" "))[0].split("/")[1];
+			String yearString = (appointment.getBeginDate().split(" "))[0].split("/")[2];
+
+			if (appointment.getRepeatType().equals("Daily"))
 				appointmentsOnSearch.add(appointment);
+			else if (appointment.getRepeatType().equals("Weekly") ) {}
 
 		}
 
