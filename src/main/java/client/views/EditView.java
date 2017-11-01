@@ -1,13 +1,13 @@
-package views;
+package client.views;
 
-import controllers.MainController;
+import client.controllers.MainController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
-import models.Appointment;
+import common.models.Appointment;
 
 import java.time.LocalDate;
 

@@ -1,11 +1,13 @@
-import controllers.MainController;
+package client;
+
+import client.controllers.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import views.MainView;
+import client.views.MainView;
 
 import java.io.IOException;
 

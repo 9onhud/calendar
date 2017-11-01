@@ -1,4 +1,4 @@
-package views;
+package client.views;
 
 
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 
-import controllers.MainController;
+import client.controllers.MainController;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import models.Appointment;
+import common.models.Appointment;
 
 public class MainView implements Initializable{
 	@FXML private DatePicker beginDay, dateSearch;

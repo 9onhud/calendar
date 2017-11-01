@@ -1,8 +1,10 @@
-package controllers;
+package client.controllers;
+
+import server.controllers.DatabaseController;
 
 public class MainController {
 	private DatabaseController dbController;
-	
+
 	public MainController() {
 		dbController = new DatabaseController();
 	}
@@ -10,5 +12,5 @@ public class MainController {
 	public DatabaseController getDbController() {
 		return dbController;
 	}
-	
+
 }

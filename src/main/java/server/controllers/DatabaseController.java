@@ -1,4 +1,4 @@
-package controllers;
+package server.controllers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,9 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import models.Appointment;
+import common.models.Appointment;
 
 public class DatabaseController {
 

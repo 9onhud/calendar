@@ -1,4 +1,4 @@
-package models;
+package common.models;
 
 public class Appointment {
 	private String beginDate, annotation, repeatType;
