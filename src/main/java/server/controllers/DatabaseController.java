@@ -8,9 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import common.DataBaseService;
 import common.models.Appointment;
 
-public class DatabaseController {
+public class DatabaseController implements DataBaseService {
 
 	public ArrayList<Appointment> loadEvent() {
 		try {
@@ -37,9 +38,7 @@ public class DatabaseController {
 			}
 			return null;
 		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -62,9 +61,7 @@ public class DatabaseController {
 				statement.executeUpdate();
 				conn.close();
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -86,9 +83,7 @@ public class DatabaseController {
 				statement.executeUpdate();
 				conn.close();
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -115,9 +110,7 @@ public class DatabaseController {
 				statement.executeUpdate();
 				conn.close();
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 	}

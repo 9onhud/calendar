@@ -1,15 +1,16 @@
 package client.controllers;
 
-import server.controllers.DatabaseController;
+import common.DataBaseService;
 
 public class MainController {
-	private DatabaseController dbController;
+	private DataBaseService dbController;
 
-	public MainController() {
-		dbController = new DatabaseController();
+	public MainController(DataBaseService dbService) {
+
+		dbController = dbService;
 	}
 
-	public DatabaseController getDbController() {
+	public DataBaseService getDbController() {
 		return dbController;
 	}
 

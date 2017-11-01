@@ -6,4 +6,13 @@
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 
+    <bean id="dbController" class="server.controllers.DatabaseController"/>
+
+
+    <bean id="service" class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="service" ref="dbController"/>
+        <property name="serviceName" value="DBService"/>
+        <property name="serviceInterface" value="common.DataBaseService"/>
+        <property name="registryPort" value="1099"/>
+    </bean>
 </beans>

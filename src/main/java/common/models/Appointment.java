@@ -1,6 +1,8 @@
 package common.models;
 
-public class Appointment {
+import java.io.Serializable;
+
+public class Appointment implements Serializable{
 	private String beginDate, annotation, repeatType;
 
 	public Appointment(String beginDate, String annotation, String repeatType) {
