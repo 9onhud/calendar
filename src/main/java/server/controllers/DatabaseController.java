@@ -13,10 +13,12 @@ import common.models.Appointment;
 
 public class DatabaseController implements DataBaseService {
 
+	private final String className = "org.sqlite.JDBC";
+	private final String dbURL = "jdbc:sqlite:event.db";
+
 	public ArrayList<Appointment> loadEvent() {
 		try {
-			Class.forName("org.sqlite.JDBC");
-			String dbURL = "jdbc:sqlite:event.db";
+			Class.forName(className);
 			Connection conn = DriverManager.getConnection(dbURL);
 			
 			if (conn != null) {
@@ -24,7 +26,7 @@ public class DatabaseController implements DataBaseService {
 				Statement statement = conn.createStatement();
 				ResultSet resultSet = statement.executeQuery(query);
 				
-				ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+				ArrayList<Appointment> appointments = new ArrayList<>();
 				
 				while (resultSet.next()) {
 					String beginDate = resultSet.getString(1);
@@ -46,8 +48,7 @@ public class DatabaseController implements DataBaseService {
 	
 	public void addEvent(String beginDate, String annotation, String repeatType) {
 		try {
-			Class.forName("org.sqlite.JDBC");
-			String dbURL = "jdbc:sqlite:event.db";
+			Class.forName(className);
 			Connection conn = DriverManager.getConnection(dbURL);
 			
 			if (conn != null) {
@@ -68,8 +69,7 @@ public class DatabaseController implements DataBaseService {
 	
 	public void deleteEvent(Appointment deleteAppointment) {
 		try {
-			Class.forName("org.sqlite.JDBC");
-			String dbURL = "jdbc:sqlite:event.db";
+			Class.forName(className);
 			Connection conn = DriverManager.getConnection(dbURL);
 
 			if (conn != null) {
@@ -90,8 +90,7 @@ public class DatabaseController implements DataBaseService {
 	
 	public void editEvent(Appointment editAppointment, Appointment newAppointment) {
 		try {
-			Class.forName("org.sqlite.JDBC");
-			String dbURL = "jdbc:sqlite:event.db";
+			Class.forName(className);
 			Connection conn = DriverManager.getConnection(dbURL);
 
 			if (conn != null) {

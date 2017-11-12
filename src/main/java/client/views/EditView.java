@@ -11,7 +11,7 @@ import common.models.Appointment;
 
 import java.time.LocalDate;
 
-public class EditView {
+public class EditView implements ShowView {
 	@FXML private DatePicker beginDayEdit;
 	@FXML private ComboBox<Integer> beginHourEdit, beginMinuteEdit;
 	@FXML private ComboBox<String> repeatTypeEdit;
@@ -36,7 +36,7 @@ public class EditView {
 		Stage stage = (Stage) applyEditBtn.getScene().getWindow();
 		stage.close();
 	}
-	private void setComboBox() {
+	public void setComboBox() {
 		for (int i=0; i<24; i++)
 			beginHourEdit.getItems().add(i);
 
@@ -57,17 +57,17 @@ public class EditView {
 
 		repeatTypeEdit.setValue(editAppointment.getRepeatType());
 	}
-	private void setDatePicker() {
+	public void setDatePicker() {
 		Integer defaultBeginDay = Integer.parseInt((editAppointment.getBeginDate().split(" ")[0]).split("/")[0]);
 		Integer defaultBeginMonth = Integer.parseInt((editAppointment.getBeginDate().split(" ")[0]).split("/")[1]);
 		Integer defaultBeginYear = Integer.parseInt((editAppointment.getBeginDate().split(" ")[0]).split("/")[2]);
 		beginDayEdit.setValue(LocalDate.of(defaultBeginYear, defaultBeginMonth, defaultBeginDay));
 	}
-	private void setTextArea() {
+	public void setTextArea() {
 		annotationTextAreaEdit.setText(editAppointment.getAnnotation());
 	}
 
-	private void setBeginScene() {
+	public void setBeginScene() {
 		setComboBox();
 		setDatePicker();
 		setTextArea();
@@ -79,7 +79,7 @@ public class EditView {
 		setBeginScene();
 	}
 
-	public void setEditAppointment(Appointment editAppointment) {
+	void setEditAppointment(Appointment editAppointment) {
 		this.editAppointment = editAppointment;
 	}
 }

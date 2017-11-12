@@ -30,7 +30,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import common.models.Appointment;
 
-public class MainView implements Initializable{
+public class MainView implements ShowView, Initializable{
 	@FXML private DatePicker beginDay, dateSearch;
 	@FXML private ComboBox<Integer> beginHour, beginMinute;
 	@FXML private ComboBox<String> repeatType;
@@ -45,8 +45,7 @@ public class MainView implements Initializable{
 	
 	public void initialize(URL arg0, ResourceBundle arg1) {	}
 
-
-	private void setComboBox() {
+    public void setComboBox() {
 		for (int i=0; i<24; i++)
 			beginHour.getItems().add(i);
 		
@@ -59,7 +58,7 @@ public class MainView implements Initializable{
 		repeatType.getItems().add("Monthly");
 		repeatType.getItems().add("Yearly");
 	}
-	private void setDefualt() {
+	private void setDefault() {
 		beginHour.setValue(0);
 
 		beginMinute.setValue(0);
@@ -74,15 +73,15 @@ public class MainView implements Initializable{
 		annotationColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("annotation"));
 		repeatTypeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("repeatType"));
 	}
-	private void setDatePicker() {
+    public void setDatePicker() {
 		beginDay.setValue(LocalDate.of(2017, 9, 1));
 		dateSearch.getEditor().clear();
 	}
-	private void setTextArea() {
+    public void setTextArea() {
 		annotationTextArea.setText("");
 	}
 	
-	public void showEventInSchedule(ArrayList<Appointment> appointments) {
+	private void showEventInSchedule(ArrayList<Appointment> appointments) {
 		scheduleTable.setItems(FXCollections.observableArrayList(appointments));
 	}
 
@@ -145,7 +144,7 @@ public class MainView implements Initializable{
 
 		loadEvent();
 		showEventInSchedule(appointments);
-		setDefualt();
+		setDefault();
 	}
 	
 	@FXML 
@@ -197,13 +196,13 @@ public class MainView implements Initializable{
 		setBeginScene();
 	}
 
-	private void setBeginScene() {
+    public void setBeginScene() {
 		setComboBox();
 		setTableView();
 		setDatePicker();
 		setTextArea();
 
-		setDefualt();
+		setDefault();
 
 		loadEvent();
 		showEventInSchedule(appointments);
